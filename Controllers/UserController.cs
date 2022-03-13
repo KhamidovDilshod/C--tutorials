@@ -18,14 +18,20 @@ namespace C__tutorials.Controllers
         [Route("users")]
         public async Task<ActionResult<List<User>>> GetAll()
         {
-            var res = _repo.GetAll();
-            return Ok(res);
+            return Ok( await _repo.GetAll());
         }
         [HttpPost]
         [Route("add")]
         public async Task<ActionResult<User>> AddUser(User user)
         {
             var res =await _repo.AddUser(user);
+            return Ok(res);
+        }
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<ActionResult<User>>DeleteUser(int id)
+        {
+            var res = await _repo.DeleteUser(id);
             return Ok(res);
         }
     }

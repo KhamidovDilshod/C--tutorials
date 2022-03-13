@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace C__tutorials.Repository
 {
+#pragma warning disable
     public class UserRepository : IUserRepository
     {
         public DataContext _context { get; }
@@ -11,33 +12,33 @@ namespace C__tutorials.Repository
         {
             this._context = context;
         }
-        public async Task<User> AddUser(User user)
+        public async Task<List<User>> AddUser(User user)
         {
             await _context.user.AddAsync(user);
             await _context.SaveChangesAsync();
-            return user;
+            return await _context.user.ToListAsync();
 
         }
-
-        public Task<User> DeleteUser(int id)
+        public async Task<List<User>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.user.ToListAsync();
+        }
+
+        public async Task<User> DeleteUser(int id)
+        {
+            var result = _context.user.FirstOrDefaultAsync(x => x.Id == id).Result;
+            _context.Remove(result);
+            await _context.SaveChangesAsync();
+            return result;
         }
 
         public Task<User> GetUser(int id)
         {
             throw new NotImplementedException();
         }
-
-        public Task<User> UpdateUser(User user)
+        Task<List<User>> IUserRepository.UpdateUser(User user)
         {
             throw new NotImplementedException();
-        }
-
-        public async Task<List<User>> GetAll()
-        {
-            var result = await _context.user.ToListAsync();
-            return result;
         }
     }
 }

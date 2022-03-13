@@ -1,6 +1,7 @@
 using C__tutorials.Interface;
 using C__tutorials.Repository;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Converters;
 
 namespace Tutorials
 {
@@ -13,7 +14,11 @@ namespace Tutorials
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers()
+            .AddNewtonsoftJson(jsonOptions =>
+        {
+            jsonOptions.SerializerSettings.Converters.Add(new StringEnumConverter());
+        });
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSwaggerGen();
             services.AddDbContext<DataContext>(x =>
