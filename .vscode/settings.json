@@ -1,0 +1,21 @@
+{
+    "sqltools.connections": [
+        {
+            "mssqlOptions": {
+                "appName": "SQLTools",
+                "useUTC": true,
+                "encrypt": true,
+                "abortTransactionOnError": false
+            },
+            "previewLimit": 50,
+            "server": "@khamidovdb.database.windows.net",
+            "port": 1433,
+            "driver": "MSSQL",
+            "name": "khamidovdb.database.windows.net",
+            "username": "KhamidovDilshod",
+            "password": "Dilshod2003!@",
+            "database": "aspnet",
+            "connectionTimeout": 30
+        }
+    ]
+}
