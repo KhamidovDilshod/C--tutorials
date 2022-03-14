@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace C__tutorials.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220313082317_Usermigration")]
-    partial class Usermigration
+    [Migration("20220314160533_UserEncoder")]
+    partial class UserEncoder
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace C__tutorials.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("C__tutorials.Repository.Models.User", b =>
+            modelBuilder.Entity("C__tutorials.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

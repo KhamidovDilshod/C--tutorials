@@ -4,7 +4,7 @@
 
 namespace C__tutorials.Migrations
 {
-    public partial class Usermigration : Migration
+    public partial class UserEncoder : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

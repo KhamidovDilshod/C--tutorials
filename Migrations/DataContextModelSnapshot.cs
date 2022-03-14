@@ -21,7 +21,7 @@ namespace C__tutorials.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("C__tutorials.Repository.Models.User", b =>
+            modelBuilder.Entity("C__tutorials.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
