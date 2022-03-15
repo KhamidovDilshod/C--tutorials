@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace C__tutorials.Models
 {
 #pragma warning disable
@@ -10,5 +12,15 @@ namespace C__tutorials.Models
         public string LastName { get; set; }
         public string Role { get; set; }
 
+        public string PasswordSalt { get; set; }
+
+        //Additional properties after registration
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zip { get; set; }
+        public string Phone { get; set; }
+        public string CreditCard { get; set; }
+        public int Age { get; set; }
     }
 }
