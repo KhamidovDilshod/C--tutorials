@@ -10,15 +10,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace C__tutorials.Migrations
 {
-    [DbContext(typeof(DataContext))]
-    [Migration("20220314160533_UserEncoder")]
-    partial class UserEncoder
+    [DbContext(typeof(Context))]
+    [Migration("20220315075607_newOne")]
+    partial class newOne
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.3")
+                .HasAnnotation("ProductVersion", "7.0.0-preview.2.22153.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -35,7 +36,11 @@ namespace C__tutorials.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

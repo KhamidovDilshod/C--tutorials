@@ -13,7 +13,7 @@ public class Program
             var loggerFactory = services.GetRequiredService<ILoggerFactory>();
             try
             {
-                var context = services.GetRequiredService<DataContext>();
+                var context = services.GetRequiredService<Context>();
 
                 await context.Database.MigrateAsync();
             }
@@ -26,9 +26,9 @@ public class Program
         host.Run();
     }
     public static IHostBuilder CreateHostBuilder(string[] args) =>
-    Host.CreateDefaultBuilder(args)
-    .ConfigureWebHostDefaults(webBuilder =>
-    {
-        webBuilder.UseStartup<Startup>();
-    });
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
 }
