@@ -13,7 +13,14 @@ public class TokenService : IService
 
     public TokenService(IConfiguration config)
     {
-        _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
+        if  (String.IsNullOrEmpty(config["TokenKey"]))
+        {
+            Console.Error.WriteLine("config is null");
+        }
+        else
+        {
+            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
+        }
     }
 
     public string CreateToken(User user)
@@ -28,7 +35,7 @@ public class TokenService : IService
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.Now.AddDays(7),
+            Expires = DateTime.Now.AddHours(2),
             SigningCredentials = creds
         };
         var tokenHandler = new JwtSecurityTokenHandler();

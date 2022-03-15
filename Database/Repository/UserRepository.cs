@@ -13,7 +13,7 @@ namespace C__tutorials.Repository
     public class UserRepository : IUserRepository
     {
         private readonly IService _tokenService;
-        public Context _context { get; set; }
+        private Context _context { get; set; }
 
         public UserRepository(Context context, IService tokenService)
         {
@@ -21,30 +21,30 @@ namespace C__tutorials.Repository
             _context = context;
         }
 
-
         public async Task<OkStatus> Login(UserDto login)
         {
-            LoginResponse loginResponse = new LoginResponse();
-            if (await UserExists(login.Email))
+            var user = await _context.user.SingleOrDefaultAsync(x => x.Email == login.Email);
+            if (user == null)
             {
-                return new OkStatus("User already exists", 404,loginResponse,false);
+                return new OkStatus("User not found", 404, null, false);
             }
 
-            using var hmac = new HMACSHA512();
-            var user = new User
+            using var hmac = new HMACSHA512(StringToByte(login.Password));
+            var computed = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.Password));
+            for (int i = 0; i < computed.Length; i++)
             {
-                Email = login.Email,
-                Password = ByteToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(login.Password))),
-                Role = login.Role
-            };
-            var res = new LoginResponse()
+                if (computed[i] != user.Password[i])
+                {
+                    return new OkStatus("Password is incorrect", 401, null, false);
+                }
+            }
+
+            var response= new LoginResponse()
             {
                 Token = _tokenService.CreateToken(user),
                 User = user.Email
             };
-            _context.user.Add(user);
-            await _context.SaveChangesAsync();
-            return new OkStatus("User created", 200, res,true);
+            return new OkStatus("Login successful", 200, response, true);
         }
 
         public async Task<OkStatus> Register(Register register)
@@ -77,6 +77,11 @@ namespace C__tutorials.Repository
         private string ByteToString(byte[] password)
         {
             return Encoding.UTF8.GetString(password);
+        }
+
+        private byte[] StringToByte(string password)
+        {
+            return Encoding.UTF8.GetBytes(password);
         }
     }
 }
