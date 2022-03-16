@@ -1,6 +1,7 @@
 using System.Text;
 using C__tutorials.Interface;
 using C__tutorials.Repository;
+using C__tutorials.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -32,7 +33,7 @@ namespace Tutorials
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT"])),
+                        IssuerSigningKey =new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Key"])),
                         ValidateIssuer = false,
                         ValidateAudience = false,
                     };

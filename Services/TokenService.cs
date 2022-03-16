@@ -5,7 +5,7 @@ using C__tutorials.Interface;
 using C__tutorials.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Tutorials;
+namespace C__tutorials.Services;
 
 public class TokenService : IService
 {
@@ -13,14 +13,14 @@ public class TokenService : IService
 
     public TokenService(IConfiguration config)
     {
-        if  (String.IsNullOrEmpty(config["TokenKey"]))
-        {
-            Console.Error.WriteLine("config is null");
-        }
-        else
-        {
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenKey"]));
-        }
+        // if  (String.IsNullOrEmpty(config["TokenKey"]))
+        // {
+        //     Console.Error.WriteLine("config is null");
+        // }
+        // else
+        // {
+        _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Key"]));
+        // }
     }
 
     public string CreateToken(User user)
@@ -30,7 +30,6 @@ public class TokenService : IService
             new Claim(JwtRegisteredClaimNames.NameId, user.Email)
         };
         var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
-
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {

@@ -5,7 +5,6 @@ using C__tutorials.Models;
 using Microsoft.EntityFrameworkCore;
 using C__tutorials.DTO;
 using C__tutorials.Models.Responses;
-using Tutorials;
 
 namespace C__tutorials.Repository
 {
@@ -33,13 +32,13 @@ namespace C__tutorials.Repository
             var computed = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.Password));
             for (int i = 0; i < computed.Length; i++)
             {
-                if (computed[i] != user.Password[i])
+                if (computed[i] != user.PasswordSalt[i])
                 {
                     return new OkStatus("Password is incorrect", 401, null, false);
                 }
             }
 
-            var response= new LoginResponse()
+            var response = new LoginResponse()
             {
                 Token = _tokenService.CreateToken(user),
                 User = user.Email
@@ -60,13 +59,26 @@ namespace C__tutorials.Repository
             {
                 Email = register.Email,
                 Password = ByteToString(hmac.ComputeHash(Encoding.UTF8.GetBytes(register.Password))),
+                PasswordSalt = ByteToString(hmac.Key),
                 Role = register.Role,
                 FirstName = register.FirstName,
                 LastName = register.LastName,
+                Address = "Tashkent,Uzbekistan",
+                City = "Tashkent",
+                State = "UZB",
+                Zip = "100012",
+                Phone = "+998997541642",
+                CreditCard = "ADMIN=9860250602*****",
+                Age = 19
             };
             await _context.user.AddAsync(newUser);
             await _context.SaveChangesAsync();
-            return new OkStatus("User created", 200, loginResponse, true);
+            var response = new LoginResponse()
+            {
+                Token = _tokenService.CreateToken(newUser),
+                User = newUser.Email
+            };
+            return new OkStatus("Login successful", 200, response, true);
         }
 
         private async Task<bool> UserExists(string email)

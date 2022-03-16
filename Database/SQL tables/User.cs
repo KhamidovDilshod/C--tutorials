@@ -7,14 +7,17 @@ namespace C__tutorials.Models
     {
         public int Id { get; set; }
         public string Password { get; set; }
+        [Required]
+        [EmailAddress]
         public string Email { get; set; }
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
+        [Required]
         public string Role { get; set; }
 
         public string PasswordSalt { get; set; }
-
-        //Additional properties after registration
         public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }
