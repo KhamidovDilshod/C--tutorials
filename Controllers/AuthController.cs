@@ -6,13 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 #pragma warning disable
 namespace C__tutorials.Controllers
 {
-    [ApiController]
-    [Route("v1")]
-    public class UserController : ControllerBase
+    public class AuthController : BaseController
     {
         public IUserRepository _repo { get; }
 
-        public UserController(IUserRepository repo)
+        public AuthController(IUserRepository repo)
         {
             this._repo = repo;
         }
@@ -29,7 +27,6 @@ namespace C__tutorials.Controllers
         public async Task<ActionResult> Register(Register register)
         {
             var result = await _repo.Register(register);
-            Console.WriteLine(result);
             return Ok(result);
         }
     }

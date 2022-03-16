@@ -13,14 +13,7 @@ public class TokenService : IService
 
     public TokenService(IConfiguration config)
     {
-        // if  (String.IsNullOrEmpty(config["TokenKey"]))
-        // {
-        //     Console.Error.WriteLine("config is null");
-        // }
-        // else
-        // {
         _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Key"]));
-        // }
     }
 
     public string CreateToken(User user)

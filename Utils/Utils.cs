@@ -1,18 +1,43 @@
+using System.Security.Cryptography;
+using System.Text;
+
 namespace C__tutorials.Utils
 {
 #pragma warning disable
     public class Util
     {
-        public string Encode(string password)
+        public static byte[] Encode(string password)
         {
-            var base64EncodedBytes = System.Convert.FromBase64String(password);
-            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+            using var hmac = new HMACSHA512();
+            Console.WriteLine(password);
+            var hashed = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            Console.WriteLine(hashed);
+            Console.WriteLine(hmac.Key);
+            return hashed;
         }
 
-        public string Decode(string password)
+        public static string Decode(string password)
         {
-            var base64EncodedBytes = System.Convert.FromBase64String(password);
-            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+            using var hmac = new HMACSHA512(StringToByte(password));
+            var hashed = hmac.ComputeHash(StringToByte(password)).ToString();
+            return hashed;
+        }
+
+        public static byte[] PasswordSalt(string password)
+        {
+            using var hmac = new HMACSHA512();
+            Console.WriteLine(hmac.Key);
+            return hmac.Key;
+        }
+
+        public static string ByteToString(byte[] password)
+        {
+            return Encoding.UTF8.GetString(password);
+        }
+
+        public static byte[] StringToByte(string password)
+        {
+            return Encoding.UTF8.GetBytes(password);
         }
     }
 }

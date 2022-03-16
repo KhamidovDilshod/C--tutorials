@@ -8,6 +8,7 @@ namespace C__tutorials.Interface
     {
         Task<OkStatus>Login(UserDto login);
         Task<OkStatus> Register(Register register);
+        Task<UserResponse>GetUserByEmail(string email);
     }
 
 }

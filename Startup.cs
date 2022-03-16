@@ -33,7 +33,8 @@ namespace Tutorials
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey =new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Key"])),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding
+                            .UTF8.GetBytes(Configuration["Key"])),
                         ValidateIssuer = false,
                         ValidateAudience = false,
                     };
