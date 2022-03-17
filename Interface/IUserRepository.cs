@@ -13,5 +13,6 @@ namespace C__tutorials.Interface
         Task<BankResponse> BankLogin(BankUserDTO bankUser);
         Task<OkBro<Accounts>> BankAccounts();
         string BuySellPrices();
+        Task<OkBro<ClientDetails>> AllClients();
     }
 }

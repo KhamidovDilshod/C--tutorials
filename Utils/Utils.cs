@@ -39,5 +39,10 @@ namespace C__tutorials.Utils
         {
             return Encoding.UTF8.GetBytes(password);
         }
+
+        public static string DateConvert(DateTime dateTime)
+        {
+            return dateTime.Date.ToString("dd.MM.yyyy").Substring(0, 10);
+        }
     }
 }

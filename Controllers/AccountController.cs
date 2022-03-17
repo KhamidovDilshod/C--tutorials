@@ -21,10 +21,17 @@ public class AccountController : BaseController
         var result = _repo.BankAccounts();
         return Ok(result);
     }
-    [HttpPost("nbu/currencies")]
+    [HttpGet("nbu/currencies")]
     public async Task<ActionResult<List<Currency>>> BuySellPrices()
     {
         var result = _repo.BuySellPrices();
         return Ok(result);
+    }
+
+    [HttpGet("users/all")]
+    public async Task<ActionResult<List<ClientDetails>>> GetAllClients()
+    {
+        var res = _repo.AllClients();
+        return Ok(res);
     }
 }

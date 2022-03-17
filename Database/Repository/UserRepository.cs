@@ -145,17 +145,19 @@ namespace C__tutorials.Repository
             return new OkBro<Accounts>("Accounts", result, true, 200);
         }
 
-        public  string BuySellPrices()
+        public string BuySellPrices()
         {
-            return ConvertToCurrency();
-        }
-
-        private string ConvertToCurrency()
-        {
+            var today = Util.DateConvert(DateTime.Now);
             WebClient client = new WebClient();
             var json2 = client.DownloadString("https://nbu.uz/exchange-rates/json");
             var model = JsonConvert.DeserializeObject<List<Currency>>(json2);
+            var lastSet = _context.Currencies.Max(entry => entry.date);
+            Console.WriteLine(lastSet);
             Console.WriteLine(model);
+            foreach (var entry in lastSet)
+            {
+                Console.WriteLine(entry);
+            }
             for (var i = 0; i < model.Count; i++)
             {
                 var currency = new Currency()
@@ -165,14 +167,27 @@ namespace C__tutorials.Repository
                     cb_price = model[i].cb_price,
                     nbu_buy_price = model[i].nbu_buy_price,
                     nbu_sell_price = model[i].nbu_sell_price,
-                    code=model[i].code
-
+                    code = model[i].code
                 };
-                Console.WriteLine(currency);
-                _context.Currencies.Add(currency);
-                _context.SaveChanges();
+                var nbu_date = model[i].date.Substring(0, 10);
+                // if (nbu_date != today)
+                // {
+                // _context.Currencies.Add(currency);
+                // _context.SaveChanges();
+                // }
+                // else
+                // {
+                // Console.WriteLine("Currencies are up to date");
+                // }
             }
+
             return json2;
+        }
+
+        public async Task<OkBro<ClientDetails>> AllClients()
+        {
+            var result = _context.ClientDetailsEnumerable.ToList();
+            return new OkBro<ClientDetails>("Success", result, true, 200);
         }
 
         private async Task<bool> UserExists(string email)
