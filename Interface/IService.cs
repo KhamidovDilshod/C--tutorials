@@ -4,5 +4,5 @@ namespace C__tutorials.Interface;
 
 public interface IService
 {
-    string CreateToken(User user);
+    string CreateToken(string UserName);
 }

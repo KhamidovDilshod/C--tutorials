@@ -1,11 +1,14 @@
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using C__tutorials.Database.DTOs;
 using C__tutorials.Interface;
 using C__tutorials.Models;
 using Microsoft.EntityFrameworkCore;
 using C__tutorials.DTO;
 using C__tutorials.Models.Responses;
 using C__tutorials.Utils;
+using Newtonsoft.Json;
 
 namespace C__tutorials.Repository
 {
@@ -45,7 +48,7 @@ namespace C__tutorials.Repository
 
             var response = new LoginResponse()
             {
-                Token = _tokenService.CreateToken(user),
+                Token = _tokenService.CreateToken(login.Email),
                 User = user.Email
             };
             return new OkStatus("Login successful", 200, response, true);
@@ -79,7 +82,7 @@ namespace C__tutorials.Repository
             await _context.SaveChangesAsync();
             var response = new LoginResponse()
             {
-                Token = _tokenService.CreateToken(newUser),
+                Token = _tokenService.CreateToken(register.Email),
                 User = newUser.Email
             };
             return new OkStatus("Login successful", 200, response, true);
@@ -90,7 +93,7 @@ namespace C__tutorials.Repository
             if (await UserExists(email))
             {
                 var result = await _context.user.Where(x => x.Email == email).ToListAsync();
-                User user= new User()
+                User user = new User()
                 {
                     Email = result[0].Email,
                     Password = "Your password is hidden",
@@ -105,10 +108,71 @@ namespace C__tutorials.Repository
                     CreditCard = result[0].CreditCard,
                     Age = result[0].Age
                 };
-                return new UserResponse(200,"Content", user, true);
+                return new UserResponse(200, "Content", user, true);
             }
 
-            return new UserResponse(404, "User not found",null, false);
+            return new UserResponse(404, "User not found", null, false);
+        }
+
+        public async Task<BankResponse> BankLogin(BankUserDTO bankUser)
+        {
+            var result = await _context.BankUsers.SingleOrDefaultAsync(x => x.Username == bankUser.Username);
+            Console.WriteLine(result);
+            if (result != null)
+            {
+                if (result.Password == bankUser.Password)
+                {
+                    var response = new BankResponse()
+                    {
+                        Token = _tokenService.CreateToken(bankUser.Username),
+                        UserName = result.Username,
+                        IsSuccess = true,
+                        Message = "Login successful",
+                        Role = result.Role,
+                        statusCode = 200
+                    };
+                    return response;
+                }
+            }
+
+            return new BankResponse("Login failed", false, "", "null", "null", 401);
+        }
+
+        public async Task<OkBro<Accounts>> BankAccounts()
+        {
+            var result = _context.Accounts.ToList();
+            Console.WriteLine(result);
+            return new OkBro<Accounts>("Accounts", result, true, 200);
+        }
+
+        public  string BuySellPrices()
+        {
+            return ConvertToCurrency();
+        }
+
+        private string ConvertToCurrency()
+        {
+            WebClient client = new WebClient();
+            var json2 = client.DownloadString("https://nbu.uz/exchange-rates/json");
+            var model = JsonConvert.DeserializeObject<List<Currency>>(json2);
+            Console.WriteLine(model);
+            for (var i = 0; i < model.Count; i++)
+            {
+                var currency = new Currency()
+                {
+                    date = model[i].date,
+                    title = model[i].title,
+                    cb_price = model[i].cb_price,
+                    nbu_buy_price = model[i].nbu_buy_price,
+                    nbu_sell_price = model[i].nbu_sell_price,
+                    code=model[i].code
+
+                };
+                Console.WriteLine(currency);
+                _context.Currencies.Add(currency);
+                _context.SaveChanges();
+            }
+            return json2;
         }
 
         private async Task<bool> UserExists(string email)
