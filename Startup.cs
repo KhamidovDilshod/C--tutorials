@@ -59,7 +59,7 @@ namespace Tutorials
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .SetIsOriginAllowed(origin => true)
-                .AllowCredentials()); 
+                .AllowCredentials());
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

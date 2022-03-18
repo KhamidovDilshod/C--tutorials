@@ -154,11 +154,7 @@ namespace C__tutorials.Repository
             var lastSet = _context.Currencies.Max(entry => entry.date);
             Console.WriteLine(lastSet);
             Console.WriteLine(model);
-            
-            // foreach (var entry in lastSet)
-            // {
-            // Console.WriteLine(entry);
-            // }
+
             for (var i = 0; i < model.Count; i++)
             {
                 var currency = new Currency()
@@ -171,15 +167,6 @@ namespace C__tutorials.Repository
                     code = model[i].code
                 };
                 var nbu_date = model[i].date.Substring(0, 10);
-                // if (nbu_date != today)
-                // {
-                // _context.Currencies.Add(currency);
-                // _context.SaveChanges();
-                // }
-                // else
-                // {
-                // Console.WriteLine("Currencies are up to date");
-                // }
             }
 
             return json2;
