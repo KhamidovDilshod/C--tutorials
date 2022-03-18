@@ -154,10 +154,11 @@ namespace C__tutorials.Repository
             var lastSet = _context.Currencies.Max(entry => entry.date);
             Console.WriteLine(lastSet);
             Console.WriteLine(model);
-            foreach (var entry in lastSet)
-            {
-                Console.WriteLine(entry);
-            }
+            
+            // foreach (var entry in lastSet)
+            // {
+            // Console.WriteLine(entry);
+            // }
             for (var i = 0; i < model.Count; i++)
             {
                 var currency = new Currency()
@@ -193,6 +194,19 @@ namespace C__tutorials.Repository
         private async Task<bool> UserExists(string email)
         {
             return await _context.user.AnyAsync(x => x.Email == email);
+        }
+
+        private void AddData()
+        {
+            var user = new Accounts()
+            {
+                Branch = "00981",
+                Ledger = 2020600695,
+                Remaining = 4123843,
+                Account = "QUDRATOV SHERALI IBROXIM O'G'LI"
+            };
+            _context.Accounts.Add(user);
+            _context.SaveChanges();
         }
     }
 }

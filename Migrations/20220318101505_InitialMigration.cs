@@ -5,7 +5,7 @@
 namespace C__tutorials.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,6 +40,33 @@ namespace C__tutorials.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BankUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientDetailsEnumerable",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RegisterId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Branch = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Client = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    tin = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CurrencyAmount = table.Column<double>(type: "float", nullable: false),
+                    Amount = table.Column<double>(type: "float", nullable: false),
+                    Remaining = table.Column<double>(type: "float", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContractNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OperDate = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OddType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastUsed = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comments = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CurrencyCourse = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientDetailsEnumerable", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,6 +121,9 @@ namespace C__tutorials.Migrations
 
             migrationBuilder.DropTable(
                 name: "BankUsers");
+
+            migrationBuilder.DropTable(
+                name: "ClientDetailsEnumerable");
 
             migrationBuilder.DropTable(
                 name: "Currencies");

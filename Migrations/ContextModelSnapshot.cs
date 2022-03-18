@@ -125,8 +125,9 @@ namespace C__tutorials.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<int>("Branch")
-                        .HasColumnType("int");
+                    b.Property<string>("Branch")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Client")
                         .IsRequired()
@@ -160,6 +161,10 @@ namespace C__tutorials.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OperDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegisterId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

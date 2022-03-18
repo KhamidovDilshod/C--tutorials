@@ -5,7 +5,8 @@ namespace C__tutorials.Models;
 public class ClientDetails
 {
     public int Id { get; set; }
-    public int Branch { get; set; }
+    public string RegisterId { get; set; }
+    public string Branch { get; set; }
     public string Client { get; set; }
     public string tin { get; set; }
     public double CurrencyAmount { get; set; }
