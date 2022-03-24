@@ -151,23 +151,20 @@ namespace C__tutorials.Repository
             WebClient client = new WebClient();
             var json2 = client.DownloadString("https://nbu.uz/exchange-rates/json");
             var model = JsonConvert.DeserializeObject<List<Currency>>(json2);
-            var lastSet = _context.Currencies.Max(entry => entry.date);
-            Console.WriteLine(lastSet);
-            Console.WriteLine(model);
-
-            for (var i = 0; i < model.Count; i++)
-            {
-                var currency = new Currency()
-                {
-                    date = model[i].date,
-                    title = model[i].title,
-                    cb_price = model[i].cb_price,
-                    nbu_buy_price = model[i].nbu_buy_price,
-                    nbu_sell_price = model[i].nbu_sell_price,
-                    code = model[i].code
-                };
-                var nbu_date = model[i].date.Substring(0, 10);
-            }
+            // var lastSet = _context.Currencies.Max(entry => entry.date);
+            // for (var i = 0; i < model.Count; i++)
+            // {
+            // var currency = new Currency()
+            // {
+            // date = model[i].date,
+            // title = model[i].title,
+            // cb_price = model[i].cb_price,
+            // nbu_buy_price = model[i].nbu_buy_price,
+            // nbu_sell_price = model[i].nbu_sell_price,
+            // code = model[i].code
+            // };
+            // var nbu_date = model[i].date.Substring(0, 10);
+            // }
 
             return json2;
         }
@@ -176,6 +173,17 @@ namespace C__tutorials.Repository
         {
             var result = _context.ClientDetailsEnumerable.ToList();
             return new OkBro<ClientDetails>("Success", result, true, 200);
+        }
+
+        public async Task<OkBro<ClientDetails>> GetClientById(int id)
+        {
+            var resultList = await _context.ClientDetailsEnumerable.Where(x => x.RegisterId == id.ToString()).ToListAsync();
+            if (resultList.Count == 0)
+            {
+                return new OkBro<ClientDetails>("Client not found", null, false, 404);
+            }
+
+            return new OkBro<ClientDetails>("Success", resultList, true, 200);
         }
 
         private async Task<bool> UserExists(string email)

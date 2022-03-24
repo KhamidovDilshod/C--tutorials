@@ -13,14 +13,14 @@ public class AccountController : BaseController
     {
         _repo = repo;
     }
-    [HttpGet("accounts/remaining")]
-    
 
+    [HttpGet("accounts/remaining")]
     public async Task<ActionResult<Accounts>> GetAccounts()
     {
         var result = _repo.BankAccounts();
         return Ok(result);
     }
+
     [HttpGet("nbu/currencies")]
     public async Task<ActionResult<List<Currency>>> BuySellPrices()
     {
@@ -32,6 +32,13 @@ public class AccountController : BaseController
     public async Task<ActionResult<List<ClientDetails>>> GetAllClients()
     {
         var res = _repo.AllClients();
+        return Ok(res);
+    }
+
+    [HttpGet("users/{id}")]
+    public async Task<ActionResult<ClientDetails>> GetClient(int id)
+    {
+        var res =await _repo.GetClientById(id);
         return Ok(res);
     }
 }

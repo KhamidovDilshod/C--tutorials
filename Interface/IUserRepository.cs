@@ -14,5 +14,6 @@ namespace C__tutorials.Interface
         Task<OkBro<Accounts>> BankAccounts();
         string BuySellPrices();
         Task<OkBro<ClientDetails>> AllClients();
+        Task<OkBro<ClientDetails>> GetClientById(int id);
     }
 }
